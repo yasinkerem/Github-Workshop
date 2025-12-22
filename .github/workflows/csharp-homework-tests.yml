@@ -1,0 +1,181 @@
+name: C# Homework Tests
+
+on:
+  pull_request:
+    paths:
+      - 'homeworks/csharp-fundamentals/**/submissions/**'
+
+jobs:
+  validate-and-test:
+    runs-on: ubuntu-latest
+    name: Validate & Test C# Submissions
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Find Changed Files
+        id: changed-files
+        uses: tj-actions/changed-files@v42
+        with:
+          files: |
+            homeworks/csharp-fundamentals/**/submissions/*.cs
+
+      - name: Validate File Names
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          echo "📋 Dosya Adı Kontrolü"
+          echo "===================="
+          
+          VALID=true
+          
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            filename=$(basename "$file")
+            echo "Kontrol ediliyor: $filename"
+            
+            # Check format: ProblemX_123456789.cs
+            if [[ ! $filename =~ ^Problem[1-4]_[0-9]{9}\.cs$ ]]; then
+              echo "❌ HATA: $filename formatı yanlış!"
+              echo "   Beklenen: ProblemX_OGRENCI_NO.cs (9 haneli numara)"
+              VALID=false
+            else
+              echo "✅ Format doğru: $filename"
+            fi
+          done
+          
+          if [ "$VALID" = false ]; then
+            echo ""
+            echo "⚠️ Bazı dosya adları yanlış formatta!"
+            exit 1
+          fi
+          
+          echo ""
+          echo "✅ Tüm dosya adları doğru formatta!"
+
+      - name: Build and Test Problem 1
+        if: steps.changed-files.outputs.any_changed == 'true'
+        continue-on-error: true
+        run: |
+          echo "🧪 Problem 1 Testleri"
+          echo "===================="
+          
+          cd homeworks/csharp-fundamentals/problem-1
+          
+          for file in submissions/Problem1_*.cs; do
+            if [ -f "$file" ]; then
+              filename=$(basename "$file")
+              echo "Test ediliyor: $filename"
+              
+              # Create temp project
+              mkdir -p temp
+              cp "$file" temp/Problem1.cs
+              cp Problem1.Tests.cs temp/
+              
+              cd temp
+              dotnet new console -n TestProject -o . --force > /dev/null 2>&1
+              
+              # Run tests
+              dotnet run -- "$filename" || echo "❌ Test başarısız: $filename"
+              
+              cd ..
+              rm -rf temp
+            fi
+          done
+
+      - name: Build and Test Problem 2
+        if: steps.changed-files.outputs.any_changed == 'true'
+        continue-on-error: true
+        run: |
+          echo "🧪 Problem 2 Testleri"
+          echo "===================="
+          
+          cd homeworks/csharp-fundamentals/problem-2
+          
+          for file in submissions/Problem2_*.cs; do
+            if [ -f "$file" ]; then
+              filename=$(basename "$file")
+              echo "Test ediliyor: $filename"
+              
+              mkdir -p temp
+              cp "$file" temp/Problem2.cs
+              cp Problem2.Tests.cs temp/
+              
+              cd temp
+              dotnet new console -n TestProject -o . --force > /dev/null 2>&1
+              dotnet run -- "$filename" || echo "❌ Test başarısız: $filename"
+              
+              cd ..
+              rm -rf temp
+            fi
+          done
+
+      - name: Build and Test Problem 3
+        if: steps.changed-files.outputs.any_changed == 'true'
+        continue-on-error: true
+        run: |
+          echo "🧪 Problem 3 Testleri"
+          echo "===================="
+          
+          cd homeworks/csharp-fundamentals/problem-3
+          
+          for file in submissions/Problem3_*.cs; do
+            if [ -f "$file" ]; then
+              filename=$(basename "$file")
+              echo "Test ediliyor: $filename"
+              
+              mkdir -p temp
+              cp "$file" temp/Problem3.cs
+              cp Problem3.Tests.cs temp/
+              
+              cd temp
+              dotnet new console -n TestProject -o . --force > /dev/null 2>&1
+              dotnet run -- "$filename" || echo "❌ Test başarısız: $filename"
+              
+              cd ..
+              rm -rf temp
+            fi
+          done
+
+      - name: Build and Test Problem 4
+        if: steps.changed-files.outputs.any_changed == 'true'
+        continue-on-error: true
+        run: |
+          echo "🧪 Problem 4 Testleri"
+          echo "===================="
+          
+          cd homeworks/csharp-fundamentals/problem-4
+          
+          for file in submissions/Problem4_*.cs; do
+            if [ -f "$file" ]; then
+              filename=$(basename "$file")
+              echo "Test ediliyor: $filename"
+              
+              mkdir -p temp
+              cp "$file" temp/Problem4.cs
+              cp Problem4.Tests.cs temp/
+              
+              cd temp
+              dotnet new console -n TestProject -o . --force > /dev/null 2>&1
+              dotnet run -- "$filename" || echo "❌ Test başarısız: $filename"
+              
+              cd ..
+              rm -rf temp
+            fi
+          done
+
+      - name: Summary
+        if: always()
+        run: |
+          echo ""
+          echo "╔══════════════════════════════════════╗"
+          echo "║      C# ÖDEV TEST SONUÇLARI          ║"
+          echo "╚══════════════════════════════════════╝"
+          echo ""
+          echo "Test detayları için yukarıdaki logları inceleyin."
+          echo ""
+          echo "📚 Yardım için: https://github.com/Furk4nBulut/Github-Workshop/wiki"
