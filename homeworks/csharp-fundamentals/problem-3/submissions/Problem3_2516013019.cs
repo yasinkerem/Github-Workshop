@@ -5,36 +5,6 @@ namespace CSharpHomework
 {
     public class Problem3
     {
-        static void Main(string[] args)
-        {
-            Console.Write("Faktöriyel için bir sayı giriniz: ");
-            int fSayi = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Sonuç: " + Faktoriyel(fSayi));
-            Console.WriteLine("-----------------------------");
-
-            Console.Write("Fibonacci serisi için eleman sayısı giriniz: ");
-            int fibAdet = Convert.ToInt32(Console.ReadLine());
-            List<int> fibSonuc = FibonacciSerisi(fibAdet);
-            Console.WriteLine("Seri: [" + string.Join(", ", fibSonuc) + "]");
-            Console.WriteLine("-----------------------------");
-
-            Console.Write("Basamak sayısı hesaplanacak sayıyı giriniz: ");
-            int bSayi = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Basamak Sayısı: " + BasamakSayisi(bSayi));
-            Console.WriteLine("-----------------------------");
-
-            Console.Write("Asallık kontrolü için sayı giriniz: ");
-            int aSayi = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Asal mı: " + AsalMi(aSayi));
-            Console.WriteLine("-----------------------------");
-
-            Console.Write("Toplamı hesaplanacak üst sınırı (n) giriniz: ");
-            int tSayi = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("1'den " + tSayi + "'e kadar toplam: " + SayilarinToplami(tSayi));
-
-            Console.ReadLine();
-        }
-
         public static long Faktoriyel(int n)
         {
             long sonuc = 1;
