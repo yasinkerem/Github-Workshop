@@ -4,30 +4,6 @@ namespace CSharpHomework
 {
     public class Problem2
     {
-        static void Main(string[] args)
-        {
-            Console.Write("Lütfen 1-7 arasında bir gün numarası giriniz: ");
-            int gun = Convert.ToInt32(Console.ReadLine());
-
-            Console.WriteLine("Gün Adı: " + GunAdiGetir(gun));
-            Console.WriteLine("Hafta Durumu: " + HaftaIciSonuMu(gun));
-
-            Console.WriteLine("-----------------------------");
-
-            Console.Write("Lütfen bir yıl giriniz: ");
-            int yil = Convert.ToInt32(Console.ReadLine());
-
-            Console.WriteLine("Artık Yıl mı: " + ArtikYilMi(yil));
-
-            Console.WriteLine("-----------------------------");
-
-            Console.Write("Lütfen 1-12 arasında bir ay numarası giriniz: ");
-            int ay = Convert.ToInt32(Console.ReadLine());
-
-            Console.WriteLine("O aydaki gün sayısı: " + AyinGunSayisi(ay, yil));
-
-            Console.ReadLine();
-        }
 
         public static string GunAdiGetir(int gunNumarasi)
         {
