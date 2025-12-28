@@ -70,9 +70,9 @@ jobs:
             filename=$(basename "$file")
             echo "Kontrol ediliyor: $filename"
             
-            if [[ ! $filename =~ ^Problem[1-4]_[0-9]{9}\.cs$ ]]; then
+            if [[ ! $filename =~ ^Problem[1-4]_[0-9]+\\.cs$ ]]; then
               echo "❌ HATA: $filename formatı yanlış!"
-              echo "   Beklenen: ProblemX_OGRENCI_NO.cs (9 haneli numara)"
+              echo "   Beklenen: ProblemX_OGRENCI_NO.cs (öğrenci numarası, hane sayısı sınırlaması yok)"
               INVALID_FILES="${INVALID_FILES}${filename}, "
               VALID=false
             else
@@ -267,7 +267,7 @@ jobs:
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "Yanlış format: ${{ steps.validate-files.outputs.invalid_files }}" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
-            echo "**Beklenen format:** ProblemX_OGRENCI_NO.cs (9 haneli numara)" >> $GITHUB_STEP_SUMMARY
+            echo "**Beklenen format:** ProblemX_OGRENCI_NO.cs (öğrenci numarası, hane sayısı sınırlaması yok)" >> $GITHUB_STEP_SUMMARY
           elif [ -f /tmp/comment_body.md ]; then
             cat /tmp/comment_body.md >> $GITHUB_STEP_SUMMARY
           fi
@@ -306,18 +306,18 @@ jobs:
               repo: context.repo.repo,
               body: `## ❌ Dosya Adı Hatası
 
-            Yanlış formatta dosyalar: **${invalidFiles}**
+              Yanlış formatta dosyalar: **${invalidFiles}**
 
-            ### 📋 Doğru Format
-            \`ProblemX_OGRENCI_NO.cs\` (9 haneli öğrenci numarası)
+              ### 📋 Doğru Format
+              \`ProblemX_OGRENCI_NO.cs\` (öğrenci numarası — hane sayısı sınırlaması yok)
 
-            **Örnek:** \`Problem1_210316011.cs\`
+              **Örnek:** \`Problem1_210316011.cs\`
 
-            ---
-            ❌ **PR merge edilemez.** Lütfen dosya adını düzeltin.
+              ---
+              ❌ **PR merge edilemez.** Lütfen dosya adını düzeltin.
 
-            ---
-            *GitHub Workshop Bot* 🤖`
+              ---
+              *GitHub Workshop Bot* 🤖`
             });
         env:
           INVALID_FILES: ${{ steps.validate-files.outputs.invalid_files }}
